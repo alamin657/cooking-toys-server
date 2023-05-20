@@ -42,15 +42,19 @@ async function run() {
             const query = { SubCategory: toys }
             const shopcategory = await toysCollection.find(query).toArray();
             res.send(shopcategory)
-
         })
 
+        app.get('/mytoys/:email', async (req, res) => {
+            const filter = req.params.email;
+            const query = { SellerEmail: filter };
+            const mytoysCategory = await toysCollection.find(query).toArray();
+            res.send(mytoysCategory);
+        })
 
         app.post('/toys', async (req, res) => {
             const cooking = req.body;
             const result = await toysCollection.insertOne(cooking);
             res.send(result);
-
         })
 
         app.put('/toys/:id', async (req, res) => {
