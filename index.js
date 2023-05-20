@@ -37,6 +37,15 @@ async function run() {
             const result = await toysCollection.findOne(query);
             res.send(result);
         })
+        app.get('/shopByCategory/:category', async (req, res) => {
+            const toys = req.params.category;
+            const query = { SubCategory: toys }
+            const shopcategory = await toysCollection.find(query).toArray();
+            res.send(shopcategory)
+
+        })
+
+
         app.post('/toys', async (req, res) => {
             const cooking = req.body;
             const result = await toysCollection.insertOne(cooking);
