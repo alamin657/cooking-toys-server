@@ -33,10 +33,8 @@ async function run() {
         app.get('/toys/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
-            const options = {
-                projection: { Seller: 1, ToyName: 1, Price: 1, AvailableQuantity: 1, DetailDescription: 1, PictureURL: 1, Rating: 1, SellerEmail: 1 }
-            }
-            const result = await toysCollection.findOne(query, options);
+
+            const result = await toysCollection.findOne(query);
             res.send(result);
         })
         app.post('/toys', async (req, res) => {
