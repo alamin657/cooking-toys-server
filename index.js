@@ -22,11 +22,10 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        // await client.connect();
         const toysCollection = client.db('toysCooking').collection('toys');
-
         app.get('/toys', async (req, res) => {
-            const cursor = toysCollection.find()
+            const cursor = toysCollection.find().limit(20)
             const result = await cursor.toArray();
             res.send(result);
         })
@@ -51,6 +50,16 @@ async function run() {
             res.send(mytoysCategory);
         })
 
+        app.get('/cookingToysByText/:text', async (req, res) => {
+            const text = req.params.text;
+            const result = await toysCollection.find({
+                $or: [
+                    { Seller: { $regex: text, $options: 'i' } },
+
+                ],
+            }).toArray();
+            res.send(result)
+        })
         app.post('/toys', async (req, res) => {
             const cooking = req.body;
             const result = await toysCollection.insertOne(cooking);
