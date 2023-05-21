@@ -46,7 +46,8 @@ async function run() {
         app.get('/mytoys/:email', async (req, res) => {
             const filter = req.params.email;
             const query = { SellerEmail: filter };
-            const mytoysCategory = await toysCollection.find(query).toArray();
+            const mytoysCategory = await toysCollection.find(query).toArray()
+                .sort({ Price: -1 })
             res.send(mytoysCategory);
         })
 
